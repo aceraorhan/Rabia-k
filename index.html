@@ -77,7 +77,10 @@ body{
 .sign{font-family:var(--hand);font-size:1.9rem;color:var(--accent)}
 
 .full .photo{position:absolute;inset:0}
-.full .copy{position:relative;align-self:end;background:linear-gradient(transparent,rgba(40,5,30,.82));color:#fff;padding-top:90px}
+.full .copy{position:relative;align-self:end;color:#fff;padding-top:clamp(90px,16vh,140px);
+  /* aşağıdan yukarıya silikleşen koyu gradient: yazı fotoğrafın üstünde net okunur */
+  background:linear-gradient(to top,rgba(40,5,30,.94) 0%,rgba(40,5,30,.82) 45%,rgba(40,5,30,.45) 75%,rgba(40,5,30,0) 100%)}
+.full .copy p{text-shadow:0 1px 8px rgba(30,0,25,.55)}
 .full .copy h2{color:#fff}
 
 .quote .copy{align-items:center;max-width:760px}
