@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sana özel 💌</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500;1,9..144,700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --serif:'Fraunces',Georgia,serif;
+  --hand:'Caveat','Segoe Script',cursive;
+  --stage:#2b0b2e;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{
+  background:radial-gradient(circle at 20% 10%,#5a1650 0,var(--stage) 60%);
+  font-family:var(--serif);color:#fff;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  padding:max(14px,env(safe-area-inset-top)) 14px max(14px,env(safe-area-inset-bottom));
+  overflow:hidden;
+}
+
+/* Renk temaları: her sayfa kendi rengini seçer */
+.t1{--bg:#ffd6e0;--ink:#5b0f2e;--accent:#e6195a;--soft:#ff9bb8}
+.t2{--bg:#ff8a6b;--ink:#3f0d1f;--accent:#fff1c9;--soft:#ffb199}
+.t3{--bg:#6a1b9a;--ink:#fff0f6;--accent:#ffd166;--soft:#a64bd1}
+.t4{--bg:#fff1c9;--ink:#5a1330;--accent:#d6285f;--soft:#ffd88a}
+.t5{--bg:#1f7a8c;--ink:#fff3f0;--accent:#ffb3c6;--soft:#4fb0c1}
+.t6{--bg:#c2185b;--ink:#fff0f5;--accent:#ffe08a;--soft:#e45a8c}
+
+.book{
+  position:relative;width:min(1000px,100%);height:min(78dvh,660px);
+  perspective:1800px;
+}
+.page{
+  position:absolute;inset:0;display:grid;overflow:hidden;
+  background:var(--bg);color:var(--ink);
+  border-radius:6px 18px 18px 6px;
+  box-shadow:0 30px 60px rgba(0,0,0,.45),inset 10px 0 18px -10px rgba(0,0,0,.35);
+  opacity:0;pointer-events:none;transform-origin:left center;
+  transform:rotateY(-14deg) translateX(30px);
+  transition:opacity .55s ease,transform .7s cubic-bezier(.2,.7,.2,1);
+}
+.page.on{opacity:1;pointer-events:auto;transform:none}
+.page.out{transform:rotateY(14deg) translateX(-30px)}
+
+.left,.right{grid-template-columns:1fr 1fr}
+.right .photo{order:2}
+.full{grid-template-columns:1fr}
+.quote,.cover{grid-template-columns:1fr;place-items:center;text-align:center}
+.video{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}
+.video .copy{align-items:center;text-align:center;padding:clamp(18px,3vw,34px) 24px 8px;gap:8px;overflow:visible}
+.video .copy h2{font-size:clamp(1.6rem,3.6vw,2.6rem)}
+.video .copy p{font-size:clamp(.95rem,1.5vw,1.1rem);line-height:1.5;max-width:60ch}
+.vwrap{container-type:size;display:grid;place-items:center;margin:8px clamp(16px,4vw,48px) clamp(16px,3vw,36px);min-height:0}
+.vbox{position:relative;width:min(100cqw,100cqh*16/9);aspect-ratio:16/9;background:#1a0a1c center/cover;border-radius:12px;overflow:hidden;box-shadow:0 14px 30px rgba(0,0,0,.3);border:4px solid #fff}
+.vbox iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vbox .play{position:absolute;inset:0;width:100%;border:0;cursor:pointer;background:rgba(43,11,46,.25);display:grid;place-items:center;padding:0}
+.vbox .play span{width:76px;height:76px;border-radius:50%;background:var(--accent);color:var(--bg);display:grid;place-items:center;font-size:2rem;padding-left:6px;box-shadow:0 6px 0 rgba(0,0,0,.25);transition:transform .15s}
+.vbox .play:hover span{transform:scale(1.08)}
+.vbox .play:focus-visible{outline:3px solid #ffd166;outline-offset:-6px}
+.vbox .ph{color:#fff}
+
+.photo{position:relative;margin:0;background:var(--soft);overflow:hidden;min-height:0}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.ph{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:6px;
+  font-family:var(--hand);font-size:1.6rem;color:var(--ink);opacity:.75;text-align:center;padding:20px}
+.ph b{font-size:4rem;line-height:1;color:var(--accent);filter:drop-shadow(0 4px 0 rgba(0,0,0,.12))}
+.photo::after{content:"";position:absolute;inset:14px;border:2px solid rgba(255,255,255,.7);pointer-events:none}
+
+.copy{padding:clamp(22px,5vw,56px);display:flex;flex-direction:column;justify-content:center;gap:14px;min-height:0;overflow:auto}
+.copy h2{font-style:italic;font-weight:700;font-size:clamp(1.8rem,4.6vw,3.2rem);line-height:1.05;margin:0;color:var(--accent)}
+.copy p{font-size:clamp(1rem,1.7vw,1.2rem);line-height:1.65;margin:0;white-space:pre-line;max-width:46ch}
+.sign{font-family:var(--hand);font-size:1.9rem;color:var(--accent)}
+
+.full .photo{position:absolute;inset:0}
+.full .copy{position:relative;align-self:end;background:linear-gradient(transparent,rgba(40,5,30,.82));color:#fff;padding-top:90px}
+.full .copy h2{color:#fff}
+
+.quote .copy{align-items:center;max-width:760px}
+.quote .copy p{font-size:clamp(1.4rem,3.4vw,2.4rem);font-style:italic;line-height:1.3;max-width:none}
+.quote .copy h2{font-family:var(--hand);font-style:normal;font-size:2.2rem;font-weight:700}
+
+.cover{background:linear-gradient(135deg,#ff5d8f,#ff9a5a 55%,#ffd166)}
+.cover .copy{align-items:center;position:relative;z-index:1}
+.cover h2{color:#fff;font-size:clamp(2.4rem,8vw,5.6rem);text-shadow:0 4px 0 rgba(120,10,60,.35)}
+.cover p{font-family:var(--hand);font-size:clamp(1.5rem,3.4vw,2.4rem);max-width:none;color:#5b0f2e}
+.cover .hint{font-size:1rem;font-family:var(--serif);opacity:.8;margin-top:18px}
+.hearts{position:absolute;inset:0;overflow:hidden}
+.hearts i{position:absolute;bottom:-40px;font-style:normal;animation:rise linear infinite;opacity:.85}
+@keyframes rise{to{transform:translateY(-760px) rotate(25deg);opacity:0}}
+
+nav{display:flex;align-items:center;gap:22px}
+nav button{
+  width:56px;height:56px;border-radius:50%;border:0;cursor:pointer;
+  background:#ff5d8f;color:#fff;font-size:1.6rem;line-height:1;
+  box-shadow:0 6px 0 #a3194f;transition:transform .12s,box-shadow .12s,opacity .2s;
+}
+nav button:active{transform:translateY(4px);box-shadow:0 2px 0 #a3194f}
+nav button:disabled{opacity:.25;cursor:default}
+nav button:focus-visible{outline:3px solid #ffd166;outline-offset:3px}
+#count{font-family:var(--hand);font-size:1.7rem;min-width:84px;text-align:center;color:#ffc2d6}
+
+@media (max-width:720px){
+  .left,.right{grid-template-columns:1fr;grid-template-rows:42% 1fr}
+  .right .photo{order:0}
+  .book{height:min(80dvh,720px)}
+  .copy p{max-width:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .page{transition:opacity .2s}.page,.page.out{transform:none}
+  .hearts{display:none}
+}
+</style>
+</head>
+<body>
+
+<main class="book" id="book" aria-live="polite"></main>
+<nav aria-label="Sayfalar">
+  <button id="prev" aria-label="Önceki sayfa">←</button>
+  <span id="count"></span>
+  <button id="next" aria-label="Sonraki sayfa">→</button>
+</nav>
+
+<script>
+/* ============================================================
+   BURAYI DÜZENLE: Sayfaları, metinleri ve fotoğrafları buradan ekle.
+   - Fotoğrafları "photos" klasörüne koy (örn. photos/1.jpg)
+   - layout: "cover" | "left" | "right" | "full" | "quote"
+       left  = fotoğraf solda, metin sağda
+       right = fotoğraf sağda, metin solda
+       full  = tam sayfa fotoğraf, üstüne yazı
+       quote = sadece büyük bir söz (fotoğraf gerekmez)
+       video = YouTube videosu. video: alanına linki ya da 11 haneli video kodunu yaz.
+               İstersen start:30 ile videoyu 30. saniyeden başlat.
+   - theme: "t1" ... "t6" (sayfa rengi)
+   - Yeni sayfa için bir { ... }, satırı ekle, silmek için sil.
+   ============================================================ */
+const PAGES = [
+  { layout:"cover", title:"Doğum günün kutlu olsun Sevgilim!",
+    text:"Bu sayı sadece sana özel...", hint:"Sayfaları çevirmek için → tuşuna bas" },
+
+  { layout:"left", theme:"t1", photo:"photos/1.jpeg",
+    title:"Tanışmamız",
+    text:"Seninle tanıştığımız ilk gün aklımda hala. Daha o zaman anlamıştım hayatımda ne kadar büyük bir yer edineceğini... o günden beri bendeki yerin her geçen gün daha da büyüdü. Ve hala büyümeye devam ediyor 🥰" },
+
+  { layout:"right", theme:"t4", photo:"photos/2.jpeg",
+    title:"Seninle Olmak",
+    text:"Konuşmaya başladığımızdan günden beri seninle zaman nasıl geçti hiç bilmiyorum. Beraber çok fazla şey yapamadık belki ama senle konuştuğum beraber olduğum her saniye hayatımın en güzel zamanları oldu benim için...❤" },
+
+  { layout:"right", theme:"t3", photo:"photos/3.jpeg",
+    title:"Deli Kadın",
+    text:"Düşünüyorum da, seninle geçirdiğim günleri önceden tahmin etmek mümkün değil. Her gün beni güldüren, neşelendiren saçma olaylar geçiyor başından 😂. “Seninle her gün, yılın en güzel günü.”"},
+  
+  { layout:"full", theme:"t2", photo:"photos/5.jpeg",
+    title:"Bu fotoğrafını çok seviyorum",
+    text:"Ne kadar büyük biri gibi görünsen de dışarıdan, İçindeki o çocuğu her gördüğümde seni sarıp sarmalamak istiyorum. Bu fotoğrafa her baktığımda o çocuğu görüyorum. 😘" },
+
+  { layout:"left", theme:"t5", photo:"photos/6.jpeg",
+    title:"Seni sevmemin nedenleri",
+    text:"Buraya tek tek seni sevmemin nedenlerini sıralayacaktım ama sonradan vazgeçtim. Çünkü sadece benim hoşuma giden özelliklerini sayacaktım. Fakat sen zaten hayatımda olduğun her gün bana seni sevmem için yeni bir sebep veriyorsun. Bana gönderdiğin her fotoğrafta her mesajda sana olan sevgim biraz daha büyüyor ve yeniden aşık oluyorum sana. 💗💗💗"},
+
+  { layout:"right", theme:"t6", photo:"photos/4.jpeg",
+    title:"Sadece bugün değil...",
+    text:"Sadece bugün değil, ben her gün iyi ki doğdun diyorum hayatımda olduğun her dakika için...",
+    sign:"Seni çoooooooooooooooooooooooooooooook seviyorum ♥" }
+];
+/* ============================================================ */
+
+const book = document.getElementById('book');
+const prev = document.getElementById('prev');
+const next = document.getElementById('next');
+const count = document.getElementById('count');
+const esc = s => String(s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function ytId(v){
+  v = String(v||'').trim();
+  const m = v.match(/(?:v=|youtu\.be\/|embed\/|shorts\/|live\/)([\w-]{11})/);
+  return m ? m[1] : (/^[\w-]{11}$/.test(v) ? v : '');
+}
+function videoHTML(p){
+  const id = ytId(p.video);
+  if(!id) return `<div class="vbox"><div class="ph"><b>▶</b><span>YouTube videosu buraya gelecek</span></div></div>`;
+  return `<div class="vbox" data-id="${id}" data-start="${parseInt(p.start,10)||0}" data-title="${esc(p.title)}"
+    style="background-image:url(https://i.ytimg.com/vi/${id}/hqdefault.jpg)">
+    <button class="play" aria-label="Videoyu oynat"><span>▶</span></button></div>`;
+}
+
+function photoHTML(p){
+  const ph = `<div class="ph"><b>♥</b><span>Fotoğraf buraya gelecek</span></div>`;
+  if(!p.photo) return `<figure class="photo">${ph}</figure>`;
+  return `<figure class="photo">${ph}<img src="${esc(p.photo)}" alt="${esc(p.title)}" loading="lazy"
+    onload="this.previousElementSibling.remove()" onerror="this.remove()"></figure>`;
+}
+
+function build(p, i){
+  const el = document.createElement('section');
+  el.className = `page ${p.layout} ${p.theme||''}`;
+  el.setAttribute('aria-label', `Sayfa ${i+1}`);
+  let inner = '';
+  if(p.layout==='cover'){
+    const h = Array.from({length:16},(_,k)=>`<i style="left:${(k*6.5+Math.random()*4)|0}%;font-size:${16+Math.random()*28|0}px;animation-duration:${6+Math.random()*7}s;animation-delay:${-Math.random()*10}s">${['♥','♡','💗','💖'][k%4]}</i>`).join('');
+    inner = `<div class="hearts" aria-hidden="true">${h}</div>
+      <div class="copy"><h2>${esc(p.title)}</h2><p>${esc(p.text)}</p><span class="hint">${esc(p.hint)}</span></div>`;
+  } else if(p.layout==='video'){
+    inner = `<div class="copy"><h2>${esc(p.title)}</h2><p>${esc(p.text)}</p></div><div class="vwrap">${videoHTML(p)}</div>`;
+  } else {
+    const withPhoto = p.layout!=='quote';
+    inner = `${withPhoto?photoHTML(p):''}
+      <div class="copy"><h2>${esc(p.title)}</h2><p>${esc(p.text)}</p>${p.sign?`<span class="sign">${esc(p.sign)}</span>`:''}</div>`;
+  }
+  el.innerHTML = inner;
+  return el;
+}
+
+const els = PAGES.map(build);
+els.forEach(e => e.querySelectorAll('.vbox[data-id]').forEach(b => b._face = b.innerHTML));
+book.addEventListener('click', e => {
+  const btn = e.target.closest('.play'); if(!btn) return;
+  const b = btn.parentElement;
+  b.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${b.dataset.id}?autoplay=1&rel=0&playsinline=1&start=${b.dataset.start}"
+    title="${b.dataset.title}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+});
+/* Sayfadan çıkınca video durur (iframe kaldırılır, kapak geri gelir) */
+const resetVideos = el => el.querySelectorAll('.vbox[data-id]').forEach(b => { if(b.querySelector('iframe')) b.innerHTML = b._face; });
+els.forEach(e => book.appendChild(e));
+
+let cur = 0;
+function show(n, first){
+  n = Math.max(0, Math.min(PAGES.length-1, n));
+  if(!first && n===cur) return;
+  const old = els[cur];
+  if(!first){ old.classList.remove('on'); old.classList.add('out'); resetVideos(old); setTimeout(()=>old.classList.remove('out'),700); }
+  cur = n;
+  els[cur].classList.remove('out'); els[cur].classList.add('on');
+  prev.disabled = cur===0; next.disabled = cur===PAGES.length-1;
+  count.textContent = `${cur+1} / ${PAGES.length}`;
+  history.replaceState(null,'','#'+(cur+1));
+}
+
+prev.onclick = () => show(cur-1);
+next.onclick = () => show(cur+1);
+addEventListener('keydown', e => {
+  if(e.key==='ArrowRight') show(cur+1);
+  if(e.key==='ArrowLeft') show(cur-1);
+});
+let sx=null;
+addEventListener('touchstart', e => sx=e.touches[0].clientX, {passive:true});
+addEventListener('touchend', e => {
+  if(sx===null) return;
+  const dx = e.changedTouches[0].clientX - sx; sx=null;
+  if(Math.abs(dx)>50) show(cur + (dx<0?1:-1));
+});
+
+const start = parseInt(location.hash.slice(1),10);
+cur = 0; show(isNaN(start)?0:start-1, true);
+</script>
+</body>
+</html>
